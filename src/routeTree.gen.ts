@@ -9,61 +9,206 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
+import { Route as LayoutTasksRouteImport } from './routes/_layout.tasks'
+import { Route as LayoutSettingsRouteImport } from './routes/_layout.settings'
+import { Route as LayoutResearchRouteImport } from './routes/_layout.research'
+import { Route as LayoutMeetingsRouteImport } from './routes/_layout.meetings'
+import { Route as LayoutEmailRouteImport } from './routes/_layout.email'
+import { Route as LayoutChatRouteImport } from './routes/_layout.chat'
 
-const IndexRoute = IndexRouteImport.update({
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutTasksRoute = LayoutTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutResearchRoute = LayoutResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutMeetingsRoute = LayoutMeetingsRouteImport.update({
+  id: '/meetings',
+  path: '/meetings',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutEmailRoute = LayoutEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutChatRoute = LayoutChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof LayoutIndexRoute
+  '/chat': typeof LayoutChatRoute
+  '/email': typeof LayoutEmailRoute
+  '/meetings': typeof LayoutMeetingsRoute
+  '/research': typeof LayoutResearchRoute
+  '/settings': typeof LayoutSettingsRoute
+  '/tasks': typeof LayoutTasksRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/chat': typeof LayoutChatRoute
+  '/email': typeof LayoutEmailRoute
+  '/meetings': typeof LayoutMeetingsRoute
+  '/research': typeof LayoutResearchRoute
+  '/settings': typeof LayoutSettingsRoute
+  '/tasks': typeof LayoutTasksRoute
+  '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/chat': typeof LayoutChatRoute
+  '/_layout/email': typeof LayoutEmailRoute
+  '/_layout/meetings': typeof LayoutMeetingsRoute
+  '/_layout/research': typeof LayoutResearchRoute
+  '/_layout/settings': typeof LayoutSettingsRoute
+  '/_layout/tasks': typeof LayoutTasksRoute
+  '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/chat'
+    | '/email'
+    | '/meetings'
+    | '/research'
+    | '/settings'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/chat'
+    | '/email'
+    | '/meetings'
+    | '/research'
+    | '/settings'
+    | '/tasks'
+    | '/'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_layout/chat'
+    | '/_layout/email'
+    | '/_layout/meetings'
+    | '/_layout/research'
+    | '/_layout/settings'
+    | '/_layout/tasks'
+    | '/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  LayoutRoute: typeof LayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_layout/': {
+      id: '/_layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/tasks': {
+      id: '/_layout/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof LayoutTasksRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/settings': {
+      id: '/_layout/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof LayoutSettingsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/research': {
+      id: '/_layout/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof LayoutResearchRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/meetings': {
+      id: '/_layout/meetings'
+      path: '/meetings'
+      fullPath: '/meetings'
+      preLoaderRoute: typeof LayoutMeetingsRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/email': {
+      id: '/_layout/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof LayoutEmailRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/chat': {
+      id: '/_layout/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof LayoutChatRouteImport
+      parentRoute: typeof LayoutRoute
     }
   }
 }
 
+interface LayoutRouteChildren {
+  LayoutChatRoute: typeof LayoutChatRoute
+  LayoutEmailRoute: typeof LayoutEmailRoute
+  LayoutMeetingsRoute: typeof LayoutMeetingsRoute
+  LayoutResearchRoute: typeof LayoutResearchRoute
+  LayoutSettingsRoute: typeof LayoutSettingsRoute
+  LayoutTasksRoute: typeof LayoutTasksRoute
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutChatRoute: LayoutChatRoute,
+  LayoutEmailRoute: LayoutEmailRoute,
+  LayoutMeetingsRoute: LayoutMeetingsRoute,
+  LayoutResearchRoute: LayoutResearchRoute,
+  LayoutSettingsRoute: LayoutSettingsRoute,
+  LayoutTasksRoute: LayoutTasksRoute,
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  LayoutRoute: LayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
